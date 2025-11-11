@@ -1,0 +1,11 @@
+stages:
+  - build
+
+build_job:
+  stage: build
+  script:
+    - echo "Checking for changes and adding to staging..."
+    - git add .
+    - git diff --cached --exit-code || git commit -m "Automated commit: Changes detected and added"
+  only:
+    - main 

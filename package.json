@@ -5,10 +5,17 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "tailwind": "npx @tailwindcss/cli -i ./public/input.css -o ./public/output.css --watch"
   },
   "keywords": [],
   "author": "Arnav",
   "license": "ISC",
-  "packageManager": "pnpm@10.20.0"
+  "packageManager": "pnpm@10.20.0",
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.17",
+    "chess.js": "^1.4.0",
+    "express": "^5.1.0",
+    "socket.io": "^4.8.1",
+    "tailwindcss": "^4.1.17"
+  }
 }
