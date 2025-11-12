@@ -17,11 +17,14 @@ io.on("connection", (socket) => {
   if (!players.white) {
     players.white = socket.id;
     socket.emit("playerRole", "w");
+    socket.emit("status", "finding");
   } else if (!players.black) {
     players.black = socket.id;
     socket.emit("playerRole", "b");
+    io.emit("status", "connected");
   } else {
     socket.emit("playerRole", "spectator");
+    socket.emit("status", "spectating");
   }
 
   console.log(players);
@@ -35,15 +38,26 @@ io.on("connection", (socket) => {
     }
   });
 
-  io.emit("boardState", chess.fen());
+  socket.emit("boardState", chess.fen());
 
   socket.on("disconnect", () => {
+    let winner;
     if (socket.id === players.white) {
       delete players.white;
+      winner = "b";
     } else if (socket.id === players.black) {
       delete players.black;
+      winner = "w";
     } else {
-      delete players.spectator;
+      return;
+    }
+
+    if (winner) {
+      io.emit("playerLeft", winner);
+    }
+
+    if (!players.white && !players.black) {
+      chess.reset();
     }
   });
 });

@@ -3,6 +3,7 @@ const chess = new Chess();
 const chessBoard = document.getElementById("chessboard");
 const topLetters = document.querySelector(".top-letters");
 const leftNumbers = document.querySelector(".left-numbers");
+const statusElement = document.querySelector(".status");
 let playerRole = null;
 let sourceSquare = null;
 
@@ -34,7 +35,6 @@ const renderBoard = () => {
             col: `${String.fromCharCode(97 + colIndex)}`,
             row: `${8 - rowIndex}`,
           };
-          console.log(sourceSquare);
         });
       }
 
@@ -47,8 +47,6 @@ const renderBoard = () => {
           col: `${String.fromCharCode(97 + colIndex)}`,
           row: `${8 - rowIndex}`,
         };
-
-        console.log(targetSquare);
 
         handleMove(sourceSquare, targetSquare);
       });
@@ -81,7 +79,6 @@ const handleMove = (source, target) => {
 
 socket.on("playerRole", (role) => {
   playerRole = role;
-  console.log(playerRole);
   chessBoard.classList.add(role === "b" ? "rotate-180" : "rotate-0");
 
   if (playerRole === "b") {
@@ -102,4 +99,30 @@ socket.on("move", (move) => {
 socket.on("boardState", (fen) => {
   chess.load(fen);
   renderBoard();
+});
+
+socket.on("playerLeft", (winner) => {
+  if (winner === "w") {
+    alert("Black left the game. White is the winner!");
+  } else {
+    alert("White left the game. Black is the winner!");
+  }
+  renderBoard();
+});
+
+socket.on("status", (status) => {
+  if (status === "finding") {
+    statusElement.textContent = "Looking for an opponent...";
+  } else if (status === "connected") {
+    statusElement.textContent = "Opponent connected!";
+
+    setTimeout(() => {
+      statusElement.innerHTML = "";
+    }, 2000);
+
+    renderBoard();
+  } else {
+    statusElement.textContent = "You are spectating the game...";
+  }
+  console.log(status);
 });
