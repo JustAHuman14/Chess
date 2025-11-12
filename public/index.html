@@ -1,13 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>WeChess</title>
-   <meta property="og:title" content="WeChess">
-   <meta property="og:desc">
-</head>
-<body>
-    
-</body>
+    <meta
+      name="description"
+      content="A multiplayer chess website. Made by Arnav Kashyap❤️"
+    />
+    <meta property="og:title" content="WeChess" />
+    <meta
+      property="og:description"
+      content="A multiplayer chess website. Made by Arnav Kashyap❤️"
+    />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:image"
+      content="https://img.freepik.com/premium-vector/chess-piece-chess-board-2d-flat-illustration_1120563-34653.jpg"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="WeChess" />
+    <meta
+      name="twitter:description"
+      content="A multiplayer chess website. Made by Arnav Kashyap❤️"
+    />
+    <meta
+      name="twitter:image"
+      content="https://img.freepik.com/premium-vector/chess-piece-chess-board-2d-flat-illustration_1120563-34653.jpg"
+    />
+    <link rel="stylesheet" href="output.css" />
+  </head>
+  <body
+    class="flex justify-center items-center h-screen w-full bg-gray-100 select-none"
+  >
+    <div class="relative flex flex-col items-center">
+      <!-- Top letters -->
+      <div
+        class="top-letters grid grid-cols-8 w-[400px] text-center text-gray-700 mb-1"
+      ></div>
+
+      <div class="flex">
+        <!-- Left numbers -->
+        <div
+          class="left-numbers grid grid-rows-8 text-center text-gray-700 mr-1"
+        ></div>
+
+        <!-- Chessboard -->
+        <div
+          id="chessboard"
+          class="h-[400px] w-[400px] grid grid-cols-8 grid-rows-8 border-2 border-gray-700"
+        ></div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+  </body>
 </html>
