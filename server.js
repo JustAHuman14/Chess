@@ -27,8 +27,6 @@ io.on("connection", (socket) => {
     socket.emit("status", "spectating");
   }
 
-  console.log(players);
-
   socket.on("move", (move) => {
     try {
       chess.move(move);
@@ -54,9 +52,6 @@ io.on("connection", (socket) => {
 
     if (winner) {
       io.emit("playerLeft", winner);
-    }
-
-    if (!players.white && !players.black) {
       chess.reset();
     }
   });

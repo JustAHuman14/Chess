@@ -27,26 +27,33 @@ const renderBoard = () => {
 
       if (col) {
         const pieceElement = document.createElement("p");
-        pieceElement.innerText = getPiece(col);
+
+        pieceElement.classList.add(col.color === "w" ? "white" : "black");
+
+        pieceElement.innerHTML = getPiece(col);
         squareElement.appendChild(pieceElement);
         pieceElement.draggable = col.color == playerRole;
         pieceElement.addEventListener("dragstart", () => {
-          sourceSquare = {
-            col: `${String.fromCharCode(97 + colIndex)}`,
-            row: `${8 - rowIndex}`,
-          };
+          sourceSquare = `${String.fromCharCode(97 + colIndex)}${8 - rowIndex}`;
+        });
+        pieceElement.addEventListener("click", () => {
+          sourceSquare = `${String.fromCharCode(97 + colIndex)}${8 - rowIndex}`;
+
+          const moves = chess.moves({ square: sourceSquare, verbose: true });
+          console.log(sourceSquare);
+
+          for (let move of moves) {
+            console.log(move);
+          }
         });
       }
-
-      squareElement.draggable = false;
 
       squareElement.addEventListener("dragover", (e) => e.preventDefault());
 
       squareElement.addEventListener("drop", () => {
-        const targetSquare = {
-          col: `${String.fromCharCode(97 + colIndex)}`,
-          row: `${8 - rowIndex}`,
-        };
+        const targetSquare = `${String.fromCharCode(97 + colIndex)}${
+          8 - rowIndex
+        }`;
 
         handleMove(sourceSquare, targetSquare);
       });
@@ -56,12 +63,54 @@ const renderBoard = () => {
 
 const getPiece = (piece) => {
   const pieces = {
-    k: { w: "♔", b: "♚" },
-    q: { w: "♕", b: "♛" },
-    b: { w: "♗", b: "♝" },
-    n: { w: "♘", b: "♞" },
-    r: { w: "♖", b: "♜" },
-    p: { w: "♙", b: "♟" },
+    k: {
+      w: `<img alt="klt" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Chess_klt45.svg/45px-Chess_klt45.svg.png" decoding="async" width="45" height="45" class="mw-file-element" srcset="https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Chess_klt45.svg/68px-Chess_klt45.svg.png 1.5x, https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Chess_klt45.svg/90px-Chess_klt45.svg.png 2x" data-file-width="45" data-file-height="45" draggable='${
+        piece.color == playerRole
+      }'>`,
+      b: `<img alt="kdt" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Chess_kdt45.svg/45px-Chess_kdt45.svg.png" decoding="async" width="45" height="45" class="mw-file-element" srcset="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Chess_kdt45.svg/68px-Chess_kdt45.svg.png 1.5x, https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Chess_kdt45.svg/90px-Chess_kdt45.svg.png 2x" data-file-width="45" data-file-height="45" draggable='${
+        piece.color == playerRole
+      }'>`,
+    },
+    q: {
+      w: `<img alt="qlt" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Chess_qlt45.svg/45px-Chess_qlt45.svg.png" decoding="async" width="45" height="45" class="mw-file-element" srcset="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Chess_qlt45.svg/68px-Chess_qlt45.svg.png 1.5x, https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Chess_qlt45.svg/90px-Chess_qlt45.svg.png 2x" data-file-width="45" data-file-height="45" draggable='${
+        piece.color == playerRole
+      }'>`,
+      b: `<img alt="qdt" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Chess_qdt45.svg/45px-Chess_qdt45.svg.png" decoding="async" width="45" height="45" class="mw-file-element" srcset="https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Chess_qdt45.svg/68px-Chess_qdt45.svg.png 1.5x, https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Chess_qdt45.svg/90px-Chess_qdt45.svg.png 2x" data-file-width="45" data-file-height="45" draggable='${
+        piece.color == playerRole
+      }'>`,
+    },
+    b: {
+      w: `<img alt="blt" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Chess_blt45.svg/45px-Chess_blt45.svg.png" decoding="async" width="45" height="45" class="mw-file-element" srcset="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Chess_blt45.svg/68px-Chess_blt45.svg.png 1.5x, https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Chess_blt45.svg/90px-Chess_blt45.svg.png 2x" data-file-width="45" data-file-height="45" draggable='${
+        piece.color == playerRole
+      }'>`,
+      b: `<img alt="bdt" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Chess_bdt45.svg/45px-Chess_bdt45.svg.png" decoding="async" width="45" height="45" class="mw-file-element" srcset="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Chess_bdt45.svg/68px-Chess_bdt45.svg.png 1.5x, https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Chess_bdt45.svg/90px-Chess_bdt45.svg.png 2x" data-file-width="45" data-file-height="45" draggable='${
+        piece.color == playerRole
+      }' >`,
+    },
+    n: {
+      w: `<img alt="nlt" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Chess_nlt45.svg/45px-Chess_nlt45.svg.png" decoding="async" width="45" height="45" class="mw-file-element" srcset="https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Chess_nlt45.svg/68px-Chess_nlt45.svg.png 1.5x, https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Chess_nlt45.svg/90px-Chess_nlt45.svg.png 2x" data-file-width="45" data-file-height="45" draggable='${
+        piece.color == playerRole
+      }'>`,
+      b: `<img alt="ndt" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Chess_ndt45.svg/45px-Chess_ndt45.svg.png" decoding="async" width="45" height="45" class="mw-file-element" srcset="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Chess_ndt45.svg/68px-Chess_ndt45.svg.png 1.5x, https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Chess_ndt45.svg/90px-Chess_ndt45.svg.png 2x" data-file-width="45" data-file-height="45" draggable='${
+        piece.color == playerRole
+      }'>`,
+    },
+    r: {
+      w: `<img alt="rlt" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Chess_rlt45.svg/45px-Chess_rlt45.svg.png" decoding="async" width="45" height="45" class="mw-file-element" srcset="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Chess_rlt45.svg/68px-Chess_rlt45.svg.png 1.5x, https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Chess_rlt45.svg/90px-Chess_rlt45.svg.png 2x" data-file-width="45" data-file-height="45" draggable='${
+        piece.color == playerRole
+      }'>`,
+      b: `<img alt="rdt" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Chess_rdt45.svg/45px-Chess_rdt45.svg.png" decoding="async" width="45" height="45" class="mw-file-element" srcset="https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Chess_rdt45.svg/68px-Chess_rdt45.svg.png 1.5x, https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Chess_rdt45.svg/90px-Chess_rdt45.svg.png 2x" data-file-width="45" data-file-height="45" draggable='${
+        piece.color == playerRole
+      }'>`,
+    },
+    p: {
+      w: `<img alt="plt" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Chess_plt45.svg/45px-Chess_plt45.svg.png" decoding="async" width="45" height="45" class="mw-file-element" srcset="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Chess_plt45.svg/68px-Chess_plt45.svg.png 1.5x, https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Chess_plt45.svg/90px-Chess_plt45.svg.png 2x" data-file-width="45" data-file-height="45" draggable='${
+        piece.color == playerRole
+      }'>`,
+      b: `<img alt="pdt" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Chess_pdt45.svg/45px-Chess_pdt45.svg.png" decoding="async" width="45" height="45" class="mw-file-element" srcset="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Chess_pdt45.svg/68px-Chess_pdt45.svg.png 1.5x, https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Chess_pdt45.svg/90px-Chess_pdt45.svg.png 2x" data-file-width="45" data-file-height="45"  draggable='${
+        piece.color == playerRole
+      }'>`,
+    },
   };
 
   return pieces[piece.type][piece.color] || "";
@@ -69,8 +118,8 @@ const getPiece = (piece) => {
 
 const handleMove = (source, target) => {
   const move = {
-    from: `${source.col}${source.row}`,
-    to: `${target.col}${target.row}`,
+    from: source,
+    to: target,
     promotion: "q",
   };
 
@@ -107,6 +156,7 @@ socket.on("playerLeft", (winner) => {
   } else {
     alert("White left the game. Black is the winner!");
   }
+  chess.reset();
   renderBoard();
 });
 
